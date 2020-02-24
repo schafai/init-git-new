@@ -1,0 +1,211 @@
+openapi: 3.0.2
+info:
+  title: Pizza Yo-Lo
+  description: This is a sample server
+  version: 1.0.0
+
+paths:
+
+  /MyPizza/allergens:
+    get:
+      operationId: findAllergens
+      parameters:
+        - $ref: "#/components/parameters/SortParam"
+        - $ref: "#/components/parameters/PageParam"
+        - $ref: "#/components/parameters/PerPageParam"
+        - $ref: "#/components/parameters/AcceptLanguageParam"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AllergensResponse"
+
+  /MyPizza/base:
+    get:
+      operationId: findBases
+      parameters:
+        - $ref: "#/components/parameters/AcceptLanguageParam"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasesResponse"
+
+  /MyPizza/ingredients:
+    get:
+      operationId: findIngredients
+      parameters:
+        - name: allergens
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+        - $ref: "#/components/parameters/SortParam"
+        - $ref: "#/components/parameters/PageParam"
+        - $ref: "#/components/parameters/PerPageParam"
+        - $ref: "#/components/parameters/AcceptLanguageParam"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IngredientsResponse"
+
+components:
+  parameters:
+    AcceptLanguageParam:
+      in: header
+      name: Accept-Language
+      schema:
+        type: string
+        format: string
+      required: false
+    SortParam:
+      in: query
+      name: sort
+      schema:
+        type: string
+    PageParam:
+      in: query
+      name: page
+      schema:
+        type: integer
+        format: int32
+    PerPageParam:
+      in: query
+      name: per_page
+      schema:
+        type: integer
+        format: int32
+
+  schemas:
+
+    PaginationData:
+      type: object
+      properties:
+        total:
+          type: integer
+          format: int32
+          description: the total number of records available
+        per_page:
+          type: integer
+          format: int32
+          description: the number of records in each page (page size)
+        current_page:
+          type: integer
+          format: int32
+          description: the current page number of this data chunk
+        last_page:
+          type: integer
+          format: int32
+          description: the last page number of this data
+        next_page_url:
+          type: string
+          description: URL of the next page
+        prev_page_url:
+          type: string
+          description: URL of the previous page
+        from:
+          type: integer
+          format: int32
+          description: the start record of this page, in relation to page size
+        to:
+          type: integer
+          format: int32
+          description: the end record of this page, in relation to page size
+
+    AllergensResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/AllergenData"
+        pagination:
+          $ref: "#/components/schemas/PaginationData"
+    AllergenData:
+      type: object
+      properties:
+        code:
+          type: string
+        label:
+          type: string
+          description: the label to display in appropriate language
+        url:
+          type: string
+          description: url to allergen
+          
+    BasesResponse:
+      type: object
+      properties:
+        data:
+          $ref: "#/components/schemas/BasesData"
+    BasesData:
+      type: object
+      properties:
+        sizes:
+          type: array
+          items:
+            $ref: "#/components/schemas/SizeData"
+          description: The list of available size (eg. small, medium, large)
+        bases:
+          type: array
+          items:
+            $ref: "#/components/schemas/BaseData"
+          description: The list of available base (eg. tomato, ...)
+    SizeData:
+      type: object
+      properties:
+        code:
+          type: string
+        label:
+          type: string
+          description: the label to display in appropriate language
+        price:
+          type: number
+        url:
+          type: string
+          description: url to size
+    BaseData:
+      type: object
+      properties:
+        code:
+          type: string
+        label:
+          type: string
+          description: the label to display in appropriate language
+        price:
+          type: number
+        url:
+          type: string
+          description: url to base
+
+    IngredientsResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/IngredientData"
+          description: The list of available ingredient (peperoni, oeuf, jambon, champignon ...)
+        pagination:
+          $ref: "#/components/schemas/PaginationData"
+    IngredientData:
+      type: object
+      properties:
+        code:
+          type: string
+        label:
+          type: string
+        price:
+          type: number
+        url:
+          type: string
+          description: url to ingredient
+      description: description of an ingredient
