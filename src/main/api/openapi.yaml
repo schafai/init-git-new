@@ -57,6 +57,30 @@ paths:
               schema:
                 $ref: "#/components/schemas/IngredientsResponse"
 
+  /MyPizza:
+    post:
+      operationId: orderPizza
+      parameters:
+        - $ref: "#/components/parameters/AcceptLanguageParam"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrderRequest"
+        required: true    
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrderResponse"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrderResponse"
 components:
   parameters:
     AcceptLanguageParam:
@@ -209,3 +233,87 @@ components:
           type: string
           description: url to ingredient
       description: description of an ingredient
+
+    OrderRequest:
+      type: object
+      properties:
+        allergens:
+          type: array
+          items:
+            $ref: "#/components/schemas/AllergenCode"
+          description: list of allergens to avoid in pizza
+        pizza:
+          $ref: "#/components/schemas/PizzaRequest"
+        extra:
+          $ref: "#/components/schemas/ExtraOrderData"
+    AllergenCode:
+      type: object
+      properties:
+        code:
+          type: string
+    PizzaRequest:
+      type: object
+      properties:
+        size:
+          type: string
+          description: code of size
+        base:
+          type: string
+          description: code of base
+        ingredients:
+          type: array
+          items:
+            $ref: "#/components/schemas/IngredientCode"
+          description: list of ingredients to put on pizza
+    IngredientCode:
+      type: object
+      properties:
+        code:
+          type: string
+    ExtraOrderData:
+      type: object
+      properties:
+        message:
+          type: string
+          
+    OrderResponse:
+      type: object
+      properties:
+        status:
+          $ref: "#/components/schemas/OrderStatus"
+        data:
+          $ref: "#/components/schemas/OrderResponseData"
+    OrderStatus:
+      type: object
+      properties:
+        code:
+          type: string
+          enum:
+            - Accepted
+            - NotConform
+            - Error
+          description: Functional status (Accepted, Not conform, Error)
+        messages:
+          type: array
+          items:
+            $ref: "#/components/schemas/StatusMessage"
+    StatusMessage:
+      type: object
+      properties:
+        message:
+          type: string
+    OrderResponseData:
+      type: object
+      properties:
+        amount:
+          type: number
+        allergens:
+          type: array
+          items:
+            $ref : "#/components/schemas/AllergenLabel"
+    AllergenLabel:
+        type: object
+        properties:
+          label:
+            type: string
+            description: the label to display in appropriate language
