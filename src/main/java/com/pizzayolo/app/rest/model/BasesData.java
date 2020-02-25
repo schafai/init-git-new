@@ -1,8 +1,6 @@
-package io.swagger.model;
+package com.pizzayolo.app.rest.model;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import javax.validation.Valid;
 
@@ -51,8 +49,7 @@ public class BasesData {
 			return false;
 		}
 		BasesData basesData = (BasesData) o;
-		return Objects.equals(sizes, basesData.sizes) &&
-				Objects.equals(bases, basesData.bases);
+		return Objects.equals(sizes, basesData.sizes) && Objects.equals(bases, basesData.bases);
 	}
 
 	@Override

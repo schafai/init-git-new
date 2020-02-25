@@ -1,4 +1,4 @@
-package io.swagger.model;
+package com.pizzayolo.app.rest.model;
 
 import java.util.Objects;
 

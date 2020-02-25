@@ -1,25 +1,25 @@
-package io.swagger.model;
+package com.pizzayolo.app.rest.model;
 
 import java.util.Objects;
 
 import javax.validation.Valid;
 
-public class ExtraOrderData {
-	private @Valid String message = null;
+public class BasesResponse {
+	private @Valid BasesData data = null;
 
 	/**
 	 **/
-	public ExtraOrderData message(String message) {
-		this.message = message;
+	public BasesResponse data(BasesData data) {
+		this.data = data;
 		return this;
 	}
 
-	public String getMessage() {
-		return message;
+	public BasesData getData() {
+		return data;
 	}
 
-	public void setMessage(String message) {
-		this.message = message;
+	public void setData(BasesData data) {
+		this.data = data;
 	}
 
 	@Override
@@ -30,21 +30,21 @@ public class ExtraOrderData {
 		if (o == null || getClass() != o.getClass()) {
 			return false;
 		}
-		ExtraOrderData extraOrderData = (ExtraOrderData) o;
-		return Objects.equals(message, extraOrderData.message);
+		BasesResponse basesResponse = (BasesResponse) o;
+		return Objects.equals(data, basesResponse.data);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(message);
+		return Objects.hash(data);
 	}
 
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("class ExtraOrderData {\n");
+		sb.append("class BasesResponse {\n");
 
-		sb.append("    message: ").append(toIndentedString(message)).append("\n");
+		sb.append("    data: ").append(toIndentedString(data)).append("\n");
 		sb.append("}");
 		return sb.toString();
 	}

@@ -1,4 +1,4 @@
-package io.swagger.model;
+package com.pizzayolo.app.rest.model;
 
 import java.util.Objects;
 
@@ -151,14 +151,12 @@ public class PaginationData {
 			return false;
 		}
 		PaginationData paginationData = (PaginationData) o;
-		return Objects.equals(total, paginationData.total) &&
-				Objects.equals(perPage, paginationData.perPage) &&
-				Objects.equals(currentPage, paginationData.currentPage) &&
-				Objects.equals(lastPage, paginationData.lastPage) &&
-				Objects.equals(nextPageUrl, paginationData.nextPageUrl) &&
-				Objects.equals(prevPageUrl, paginationData.prevPageUrl) &&
-				Objects.equals(from, paginationData.from) &&
-				Objects.equals(to, paginationData.to);
+		return Objects.equals(total, paginationData.total) && Objects.equals(perPage, paginationData.perPage)
+				&& Objects.equals(currentPage, paginationData.currentPage)
+				&& Objects.equals(lastPage, paginationData.lastPage)
+				&& Objects.equals(nextPageUrl, paginationData.nextPageUrl)
+				&& Objects.equals(prevPageUrl, paginationData.prevPageUrl) && Objects.equals(from, paginationData.from)
+				&& Objects.equals(to, paginationData.to);
 	}
 
 	@Override

@@ -1,26 +1,25 @@
-package io.swagger.model;
+package com.pizzayolo.app.rest.model;
 
 import java.util.Objects;
 
 import javax.validation.Valid;
 
-public class AllergenLabel {
-	private @Valid String label = null;
+public class IngredientCode {
+	private @Valid String code = null;
 
 	/**
-	 * the label to display in appropriate language
 	 **/
-	public AllergenLabel label(String label) {
-		this.label = label;
+	public IngredientCode code(String code) {
+		this.code = code;
 		return this;
 	}
 
-	public String getLabel() {
-		return label;
+	public String getCode() {
+		return code;
 	}
 
-	public void setLabel(String label) {
-		this.label = label;
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	@Override
@@ -31,21 +30,21 @@ public class AllergenLabel {
 		if (o == null || getClass() != o.getClass()) {
 			return false;
 		}
-		AllergenLabel allergenLabel = (AllergenLabel) o;
-		return Objects.equals(label, allergenLabel.label);
+		IngredientCode ingredientCode = (IngredientCode) o;
+		return Objects.equals(code, ingredientCode.code);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(label);
+		return Objects.hash(code);
 	}
 
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("class AllergenLabel {\n");
+		sb.append("class IngredientCode {\n");
 
-		sb.append("    label: ").append(toIndentedString(label)).append("\n");
+		sb.append("    code: ").append(toIndentedString(code)).append("\n");
 		sb.append("}");
 		return sb.toString();
 	}

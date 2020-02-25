@@ -1,8 +1,6 @@
-package io.swagger.model;
+package com.pizzayolo.app.rest.model;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import javax.validation.Valid;
 
@@ -50,8 +48,8 @@ public class IngredientsResponse {
 			return false;
 		}
 		IngredientsResponse ingredientsResponse = (IngredientsResponse) o;
-		return Objects.equals(data, ingredientsResponse.data) &&
-				Objects.equals(pagination, ingredientsResponse.pagination);
+		return Objects.equals(data, ingredientsResponse.data)
+				&& Objects.equals(pagination, ingredientsResponse.pagination);
 	}
 
 	@Override

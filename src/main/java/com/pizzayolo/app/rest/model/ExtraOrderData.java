@@ -1,25 +1,25 @@
-package io.swagger.model;
+package com.pizzayolo.app.rest.model;
 
 import java.util.Objects;
 
 import javax.validation.Valid;
 
-public class AllergenCode {
-	private @Valid String code = null;
+public class ExtraOrderData {
+	private @Valid String message = null;
 
 	/**
 	 **/
-	public AllergenCode code(String code) {
-		this.code = code;
+	public ExtraOrderData message(String message) {
+		this.message = message;
 		return this;
 	}
 
-	public String getCode() {
-		return code;
+	public String getMessage() {
+		return message;
 	}
 
-	public void setCode(String code) {
-		this.code = code;
+	public void setMessage(String message) {
+		this.message = message;
 	}
 
 	@Override
@@ -30,21 +30,21 @@ public class AllergenCode {
 		if (o == null || getClass() != o.getClass()) {
 			return false;
 		}
-		AllergenCode allergenCode = (AllergenCode) o;
-		return Objects.equals(code, allergenCode.code);
+		ExtraOrderData extraOrderData = (ExtraOrderData) o;
+		return Objects.equals(message, extraOrderData.message);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(code);
+		return Objects.hash(message);
 	}
 
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("class AllergenCode {\n");
+		sb.append("class ExtraOrderData {\n");
 
-		sb.append("    code: ").append(toIndentedString(code)).append("\n");
+		sb.append("    message: ").append(toIndentedString(message)).append("\n");
 		sb.append("}");
 		return sb.toString();
 	}

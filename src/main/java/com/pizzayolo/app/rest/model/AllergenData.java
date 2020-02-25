@@ -1,19 +1,17 @@
-package io.swagger.model;
+package com.pizzayolo.app.rest.model;
 
-import java.math.BigDecimal;
 import java.util.Objects;
 
 import javax.validation.Valid;
 
-public class SizeData {
+public class AllergenData {
 	private @Valid String code = null;
 	private @Valid String label = null;
-	private @Valid BigDecimal price = null;
 	private @Valid String url = null;
 
 	/**
 	 **/
-	public SizeData code(String code) {
+	public AllergenData code(String code) {
 		this.code = code;
 		return this;
 	}
@@ -29,7 +27,7 @@ public class SizeData {
 	/**
 	 * the label to display in appropriate language
 	 **/
-	public SizeData label(String label) {
+	public AllergenData label(String label) {
 		this.label = label;
 		return this;
 	}
@@ -43,24 +41,9 @@ public class SizeData {
 	}
 
 	/**
+	 * url to allergen
 	 **/
-	public SizeData price(BigDecimal price) {
-		this.price = price;
-		return this;
-	}
-
-	public BigDecimal getPrice() {
-		return price;
-	}
-
-	public void setPrice(BigDecimal price) {
-		this.price = price;
-	}
-
-	/**
-	 * url to size
-	 **/
-	public SizeData url(String url) {
+	public AllergenData url(String url) {
 		this.url = url;
 		return this;
 	}
@@ -81,26 +64,23 @@ public class SizeData {
 		if (o == null || getClass() != o.getClass()) {
 			return false;
 		}
-		SizeData sizeData = (SizeData) o;
-		return Objects.equals(code, sizeData.code) &&
-				Objects.equals(label, sizeData.label) &&
-				Objects.equals(price, sizeData.price) &&
-				Objects.equals(url, sizeData.url);
+		AllergenData allergenData = (AllergenData) o;
+		return Objects.equals(code, allergenData.code) && Objects.equals(label, allergenData.label)
+				&& Objects.equals(url, allergenData.url);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(code, label, price, url);
+		return Objects.hash(code, label, url);
 	}
 
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("class SizeData {\n");
+		sb.append("class AllergenData {\n");
 
 		sb.append("    code: ").append(toIndentedString(code)).append("\n");
 		sb.append("    label: ").append(toIndentedString(label)).append("\n");
-		sb.append("    price: ").append(toIndentedString(price)).append("\n");
 		sb.append("    url: ").append(toIndentedString(url)).append("\n");
 		sb.append("}");
 		return sb.toString();

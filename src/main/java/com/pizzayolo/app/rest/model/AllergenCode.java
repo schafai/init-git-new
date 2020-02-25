@@ -1,25 +1,25 @@
-package io.swagger.model;
+package com.pizzayolo.app.rest.model;
 
 import java.util.Objects;
 
 import javax.validation.Valid;
 
-public class BasesResponse {
-	private @Valid BasesData data = null;
+public class AllergenCode {
+	private @Valid String code = null;
 
 	/**
 	 **/
-	public BasesResponse data(BasesData data) {
-		this.data = data;
+	public AllergenCode code(String code) {
+		this.code = code;
 		return this;
 	}
 
-	public BasesData getData() {
-		return data;
+	public String getCode() {
+		return code;
 	}
 
-	public void setData(BasesData data) {
-		this.data = data;
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	@Override
@@ -30,21 +30,21 @@ public class BasesResponse {
 		if (o == null || getClass() != o.getClass()) {
 			return false;
 		}
-		BasesResponse basesResponse = (BasesResponse) o;
-		return Objects.equals(data, basesResponse.data);
+		AllergenCode allergenCode = (AllergenCode) o;
+		return Objects.equals(code, allergenCode.code);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(data);
+		return Objects.hash(code);
 	}
 
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("class BasesResponse {\n");
+		sb.append("class AllergenCode {\n");
 
-		sb.append("    data: ").append(toIndentedString(data)).append("\n");
+		sb.append("    code: ").append(toIndentedString(code)).append("\n");
 		sb.append("}");
 		return sb.toString();
 	}

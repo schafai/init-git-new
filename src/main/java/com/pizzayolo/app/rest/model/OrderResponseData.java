@@ -1,4 +1,4 @@
-package io.swagger.model;
+package com.pizzayolo.app.rest.model;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -50,8 +50,8 @@ public class OrderResponseData {
 			return false;
 		}
 		OrderResponseData orderResponseData = (OrderResponseData) o;
-		return Objects.equals(amount, orderResponseData.amount) &&
-				Objects.equals(allergens, orderResponseData.allergens);
+		return Objects.equals(amount, orderResponseData.amount)
+				&& Objects.equals(allergens, orderResponseData.allergens);
 	}
 
 	@Override

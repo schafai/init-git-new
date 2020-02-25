@@ -1,4 +1,4 @@
-package io.swagger.model;
+package com.pizzayolo.app.rest.model;
 
 import java.util.Objects;
 
@@ -47,8 +47,7 @@ public class OrderResponse {
 			return false;
 		}
 		OrderResponse orderResponse = (OrderResponse) o;
-		return Objects.equals(status, orderResponse.status) &&
-				Objects.equals(data, orderResponse.data);
+		return Objects.equals(status, orderResponse.status) && Objects.equals(data, orderResponse.data);
 	}
 
 	@Override

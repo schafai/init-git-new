@@ -1,15 +1,11 @@
-package io.swagger.model;
+package com.pizzayolo.app.rest.model;
 
 import java.math.BigDecimal;
 import java.util.Objects;
 
 import javax.validation.Valid;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-
-@Schema(description = "description of an ingredient")
-
-public class IngredientData {
+public class SizeData {
 	private @Valid String code = null;
 	private @Valid String label = null;
 	private @Valid BigDecimal price = null;
@@ -17,7 +13,7 @@ public class IngredientData {
 
 	/**
 	 **/
-	public IngredientData code(String code) {
+	public SizeData code(String code) {
 		this.code = code;
 		return this;
 	}
@@ -31,8 +27,9 @@ public class IngredientData {
 	}
 
 	/**
+	 * the label to display in appropriate language
 	 **/
-	public IngredientData label(String label) {
+	public SizeData label(String label) {
 		this.label = label;
 		return this;
 	}
@@ -47,7 +44,7 @@ public class IngredientData {
 
 	/**
 	 **/
-	public IngredientData price(BigDecimal price) {
+	public SizeData price(BigDecimal price) {
 		this.price = price;
 		return this;
 	}
@@ -61,9 +58,9 @@ public class IngredientData {
 	}
 
 	/**
-	 * url to ingredient
+	 * url to size
 	 **/
-	public IngredientData url(String url) {
+	public SizeData url(String url) {
 		this.url = url;
 		return this;
 	}
@@ -84,11 +81,9 @@ public class IngredientData {
 		if (o == null || getClass() != o.getClass()) {
 			return false;
 		}
-		IngredientData ingredientData = (IngredientData) o;
-		return Objects.equals(code, ingredientData.code) &&
-				Objects.equals(label, ingredientData.label) &&
-				Objects.equals(price, ingredientData.price) &&
-				Objects.equals(url, ingredientData.url);
+		SizeData sizeData = (SizeData) o;
+		return Objects.equals(code, sizeData.code) && Objects.equals(label, sizeData.label)
+				&& Objects.equals(price, sizeData.price) && Objects.equals(url, sizeData.url);
 	}
 
 	@Override
@@ -99,7 +94,7 @@ public class IngredientData {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("class IngredientData {\n");
+		sb.append("class SizeData {\n");
 
 		sb.append("    code: ").append(toIndentedString(code)).append("\n");
 		sb.append("    label: ").append(toIndentedString(label)).append("\n");

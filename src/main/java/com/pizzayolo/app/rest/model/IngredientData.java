@@ -1,11 +1,11 @@
-package io.swagger.model;
+package com.pizzayolo.app.rest.model;
 
 import java.math.BigDecimal;
 import java.util.Objects;
 
 import javax.validation.Valid;
 
-public class BaseData {
+public class IngredientData {
 	private @Valid String code = null;
 	private @Valid String label = null;
 	private @Valid BigDecimal price = null;
@@ -13,7 +13,7 @@ public class BaseData {
 
 	/**
 	 **/
-	public BaseData code(String code) {
+	public IngredientData code(String code) {
 		this.code = code;
 		return this;
 	}
@@ -27,9 +27,8 @@ public class BaseData {
 	}
 
 	/**
-	 * the label to display in appropriate language
 	 **/
-	public BaseData label(String label) {
+	public IngredientData label(String label) {
 		this.label = label;
 		return this;
 	}
@@ -44,7 +43,7 @@ public class BaseData {
 
 	/**
 	 **/
-	public BaseData price(BigDecimal price) {
+	public IngredientData price(BigDecimal price) {
 		this.price = price;
 		return this;
 	}
@@ -58,9 +57,9 @@ public class BaseData {
 	}
 
 	/**
-	 * url to base
+	 * url to ingredient
 	 **/
-	public BaseData url(String url) {
+	public IngredientData url(String url) {
 		this.url = url;
 		return this;
 	}
@@ -81,11 +80,9 @@ public class BaseData {
 		if (o == null || getClass() != o.getClass()) {
 			return false;
 		}
-		BaseData baseData = (BaseData) o;
-		return Objects.equals(code, baseData.code) &&
-				Objects.equals(label, baseData.label) &&
-				Objects.equals(price, baseData.price) &&
-				Objects.equals(url, baseData.url);
+		IngredientData ingredientData = (IngredientData) o;
+		return Objects.equals(code, ingredientData.code) && Objects.equals(label, ingredientData.label)
+				&& Objects.equals(price, ingredientData.price) && Objects.equals(url, ingredientData.url);
 	}
 
 	@Override
@@ -96,7 +93,7 @@ public class BaseData {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("class BaseData {\n");
+		sb.append("class IngredientData {\n");
 
 		sb.append("    code: ").append(toIndentedString(code)).append("\n");
 		sb.append("    label: ").append(toIndentedString(label)).append("\n");

@@ -1,4 +1,4 @@
-package io.swagger.model;
+package com.pizzayolo.app.rest.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,9 +8,7 @@ import javax.validation.Valid;
 
 public class OrderStatus {
 	public enum CodeEnum {
-
 		Accepted, NotConform, Error;
-
 	}
 
 	private @Valid CodeEnum code = null;

@@ -1,8 +1,6 @@
-package io.swagger.model;
+package com.pizzayolo.app.rest.model;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import javax.validation.Valid;
 
@@ -68,9 +66,8 @@ public class PizzaRequest {
 			return false;
 		}
 		PizzaRequest pizzaRequest = (PizzaRequest) o;
-		return Objects.equals(size, pizzaRequest.size) &&
-				Objects.equals(base, pizzaRequest.base) &&
-				Objects.equals(ingredients, pizzaRequest.ingredients);
+		return Objects.equals(size, pizzaRequest.size) && Objects.equals(base, pizzaRequest.base)
+				&& Objects.equals(ingredients, pizzaRequest.ingredients);
 	}
 
 	@Override
