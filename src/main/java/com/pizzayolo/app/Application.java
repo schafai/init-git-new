@@ -1,7 +1,10 @@
 package com.pizzayolo.app;
 
-import java.util.ArrayList;
-import java.util.Locale;
+import java.math.BigDecimal;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -11,25 +14,24 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.pizzayolo.app.data.model.Allergene;
-import com.pizzayolo.app.data.repo.AllergeneRepository;
-import com.pizzayolo.app.data.repo.IngredientRepository;
-import com.pizzayolo.app.data.repo.PateRepository;
-import com.pizzayolo.app.data.repo.SauceRepository;
-import com.pizzayolo.app.rest.model.AllergenData;
-import com.pizzayolo.app.rest.model.AllergensResponse;
-import com.pizzayolo.app.rest.model.PaginationData;
+import com.pizzayolo.app.data.model.*;
+import com.pizzayolo.app.data.repo.*;
+import com.pizzayolo.app.rest.model.*;
+import com.pizzayolo.app.rest.model.OrderStatus.CodeEnum;
 
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 @RestController
+@RequestMapping("/MyPizza")
 @SpringBootApplication
 public class Application {
 
@@ -37,6 +39,7 @@ public class Application {
 	private SauceRepository sauceRepository;
 	private PateRepository pateRepository;
 	private IngredientRepository ingredientRepository;
+	private PizzaRepository pizzaRepository;
 
 	private MessageSource messageSource;
 
@@ -62,6 +65,11 @@ public class Application {
 	@Autowired
 	public void setIngredientRepository(IngredientRepository ingredientRepository) {
 		this.ingredientRepository = ingredientRepository;
+	}
+
+	@Autowired
+	public void setPizzaRepository(PizzaRepository pizzaRepository) {
+		this.pizzaRepository = pizzaRepository;
 	}
 
 	@Autowired
@@ -133,4 +141,94 @@ public class Application {
 		return response;
 
 	}
+
+	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@Parameter(in = ParameterIn.HEADER, name = "Accept-Language", schema = @Schema(type = "string"))
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = OrderResponse.class))),
+			@ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = OrderResponse.class)))
+	})
+	public ResponseEntity<OrderResponse> orderPizza(
+			@Parameter(required = true) @Valid @RequestBody OrderRequest body,
+			Locale locale) {
+
+		OrderResponse response = new OrderResponse();
+		OrderStatus status = new OrderStatus();
+
+		try {
+			Pizza pizza = new Pizza();
+			Set<Allergene> allergensInPizza = new HashSet<>();
+
+			pizza.setNom(UUID.randomUUID().toString());
+
+			String size = body.getPizza().getSize();
+			Pate pate = pateRepository.findById(size).orElseThrow(() -> new NoSuchSizeException(size));
+
+			pizza.setPrix(pate.getPrix());
+			pizza.setPate(pate);
+
+			allergensInPizza.addAll(pate.getAllergenes());
+
+			BigDecimal coef = pate.getCoefficient();
+
+			String base = body.getPizza().getBase();
+			Sauce sauce = sauceRepository.findById(base).orElseThrow(() -> new NoSuchBaseException(base));
+
+			pizza.setPrix(pizza.getPrix().add(sauce.getPrix().multiply(coef)));
+			pizza.setSauce(sauce);
+
+			allergensInPizza.addAll(sauce.getAllergenes());
+
+			Set<String> ingredientCodes = body.getPizza()
+					.getIngredients()
+					.stream()
+					.map(IngredientCode::getCode)
+					.collect(Collectors.toSet());
+
+			for (Ingredient ingredient : ingredientRepository.findAllById(ingredientCodes)) {
+				pizza.setPrix(pizza.getPrix().add(ingredient.getPrix().multiply(coef)));
+				pizza.getIngredients().add(ingredient);
+				allergensInPizza.addAll(ingredient.getAllergenes());
+			}
+
+			Set<String> allergensToAvoid = body.getAllergens()
+					.stream()
+					.map(AllergenCode::getCode)
+					.collect(Collectors.toSet());
+
+			Set<String> incompatibleAllergens = allergensInPizza.stream()
+					.filter(alg -> allergensToAvoid.contains(alg.getCode()))
+					.map(Allergene::getLibelle)
+					.collect(Collectors.toSet());
+
+			if (!incompatibleAllergens.isEmpty()) {
+				throw new NotConformException(incompatibleAllergens);
+			}
+
+			pizzaRepository.save(pizza);
+
+			OrderResponseData data = new OrderResponseData();
+			data.setAllergens(allergensInPizza.stream()
+					.map(a -> new AllergenLabel().label(a.getLibelle()))
+					.collect(Collectors.toList()));
+			data.setAmount(pizza.getPrix());
+
+			response.setData(data);
+			response.setStatus(status.code(CodeEnum.Accepted));
+			return ResponseEntity.ok(response);
+
+		} catch (ApplicationException e) {
+			if (e instanceof NotConformException) {
+				status.setCode(CodeEnum.NotConform);
+			} else {
+				status.setCode(CodeEnum.Error);
+			}
+			String message = messageSource.getMessage(e.getMessageKey(), e.getArgs(), locale);
+			status.setMessages(Collections.singletonList(new StatusMessage().message(message)));
+			response.setStatus(status);
+			return ResponseEntity.badRequest().body(response);
+		}
+
+	}
+
 }
