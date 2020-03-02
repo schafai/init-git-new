@@ -1,4 +1,4 @@
-package com.pizzayolo.app;
+package com.pizzayolo.app.business;
 
 import java.util.Set;
 
